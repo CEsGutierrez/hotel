@@ -39,8 +39,16 @@ class Booker
   return room_id_list
  end
  
+ def list_reservations_for_room(room_id)
+  reservations_for_room = []
+  @reservations.each do |reservation|
+   if reservation.room_id == room_id
+    reservations_for_room << reservation
+   end
+  end
+  return reservations_for_room
+ end
  
  
  
-
 end

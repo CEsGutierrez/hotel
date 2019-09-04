@@ -32,34 +32,38 @@ describe "reporting abilities" do
  end
  
  it "can list all the rooms in the hotel by their ID number" do
-  # room_ids = []
-  # @new_hotel.rooms.each do |room|
-  #  room_ids << room.id
-  # end
-  # expect(room_ids.length).must_equal 20
-  # expect(room_ids.uniq).must_equal room_ids
+  
   expect(@new_hotel.list_room_ids.length).must_equal 20
   expect(@new_hotel.list_room_ids.uniq).must_equal @new_hotel.list_room_ids
   
  end
- 
- it "can list all reservations for a given room" do
+ describe "Booking multiple reservations" do
+  before do
+   @new_hotel = Booker.new
+   @arbitrary_new_reservations = 6
+   @arbitrary_new_reservations.times do
+    @test_reservation = @new_hotel.new_reservation
+   end
+  end
+  
+  it "is compiling a list of reservations made" do
+   expect(@new_hotel.reservations.length).must_equal @arbitrary_new_reservations
+   expect(@new_hotel.reservations.uniq).must_equal @new_hotel.reservations
+  end
+  
+  it "can access room-specific reservation history" do
+   expect(@new_hotel.reservations[3].reservation_id).must_equal 3
+  end
+  
+  it "can list all reservations for a given period of time" do
+  end
+  
  end
  
- 
- 
- 
- 
- it "can list all reservations for a given period of time" do
+ xdescribe "blocking abilities" do
+  xit "booker can instigate instances of blocks" do #This is where I'm placeholding additional tests for later
+  end
+  
  end
- 
- 
  
 end
-
-xdescribe "blocking abilities" do
- xit "booker can instigate instances of blocks" do #This is where I'm placeholding additional tests for later
- end
- 
-end
-
