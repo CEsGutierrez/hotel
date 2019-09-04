@@ -31,4 +31,16 @@ class Booker
   reservations << Reservation.new(start_date: start_date, end_date: end_date, room_id: 2)
  end
  
+ def list_room_ids
+  room_id_list = []
+  @rooms.each do |room|
+   room_id_list << room.id
+  end
+  return room_id_list
+ end
+ 
+ 
+ 
+ 
+
 end
