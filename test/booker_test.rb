@@ -14,13 +14,13 @@ describe Booker do
   expect(@booker.rooms[arbitrary_test_room_id]).must_be_kind_of Room
  end
  
- xit "booker can instigate instances of reservation" do 
+ it "booker can instigate instances of reservation" do
+  arbitrary_test_reservation_position = 0
+  expect(@booker.new_reservation[arbitrary_test_reservation_position]).must_be_kind_of Reservation
  end
  
- xit "booker can instigate instances of blocks" do
+ xit "booker can instigate instances of blocks" do #This is where I'm placeholding additional tests for later
  end
- 
- 
  
 end
 

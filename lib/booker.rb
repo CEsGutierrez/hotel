@@ -5,13 +5,13 @@ require_relative 'Reporter'
 
 class Booker
  
+ SECONDS_PER_DAY = 86400
+ 
  attr_accessor :rooms, :reservations
- 
- 
- @reservations = []
  
  def initialize 
   @rooms = populate_hotel
+  @reservations = []
  end
  
  def populate_hotel
@@ -24,6 +24,11 @@ class Booker
   return rooms_array
  end  
  
- 
+ def new_reservation(start_date: Time.now, end_date: Time.now+SECONDS_PER_DAY)
+  start_date = start_date
+  end_date = end_date
+  reservation_id = @reservations.length + 1
+  reservations << Reservation.new(start_date: start_date, end_date: end_date, room_id: 2)
+ end
  
 end
