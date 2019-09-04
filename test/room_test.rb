@@ -3,8 +3,7 @@ require_relative 'test_helper'
 describe Room do
  before do
   test_room_id = 5
-  test_room_basic_cost = 200
-  @test_room = Room.new(id: test_room_id, cost: test_room_basic_cost)
+  @test_room = Room.new(id: test_room_id)
   
  end
  it "room is of appropriate class" do
