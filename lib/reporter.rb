@@ -1,2 +1,5 @@
-class Reporter
-end
+
+# COMMENTED OUT AS CLASS IS BEING DISCARTED
+
+# class Reporter
+# end
