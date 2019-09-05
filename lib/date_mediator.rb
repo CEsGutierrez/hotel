@@ -23,14 +23,25 @@ class DateMediator
   conflict_statement = 0
   check_start = start_date
   
-  while check_start< end_date do
+  # this measures the conflicts created by the new dates against the already booked range 
+  while check_start <= end_date do
    if check_start.between?(range_start, range_end)
     conflict_statement += 1 
+    puts "I have a conflict #{check_start
+    }"
     check_start += 1
    else
+    puts "I have no conflict #{check_start
+    }"
     check_start += 1
    end
   end
+  
+  # this erases the conflict created by dates that are touching the range but not actually treading upon it
+  if conflict_statement == 1 && (@end_date == range_start || @start_date == range_end)
+   conflict_statement = 0
+  end
+  
   
   return conflict_statement
   

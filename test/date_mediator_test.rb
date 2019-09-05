@@ -29,7 +29,7 @@ describe DateMediator do
   expect(@new_date_mediator.main_function).wont_equal 0
  end
  
- it "can determine if two date ranges are touching but NOT     overalpping" do
+ it "can determine if two date ranges are touching but NOT overalpping" do
   
   range_start_date = Date.parse("2014-11-01")
   range_end_date = Date.parse("2014-11-10")
@@ -37,7 +37,7 @@ describe DateMediator do
   end_date_being_tested = Date.parse("2014-11-01")
   
   @new_date_mediator = DateMediator.new(range_start: range_start_date, range_end: range_end_date, start_date: start_date_being_tested, end_date: end_date_being_tested)
-  akexpect(@new_date_mediator.main_function).must_equal 0
+  expect(@new_date_mediator.main_function).must_equal 0
  end
  
 end
