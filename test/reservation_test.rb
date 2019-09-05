@@ -55,4 +55,11 @@ describe Reservation do
   expect(@test_reservation.block_label).must_be_nil
  end
  
+ it "default date for all reservations is today" do
+ end
+ 
+ it "default end date for all reservations is tomorrow" do
+ end
+ 
+ 
 end
