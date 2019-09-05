@@ -1,11 +1,9 @@
-require 'Time'
+require 'Date'
 require_relative 'Room'
 require_relative 'Reservation'
 require_relative 'Reporter'
 
 class Booker
- 
- SECONDS_PER_DAY = 86400
  
  attr_accessor :rooms, :reservations
  
@@ -24,7 +22,7 @@ class Booker
   return rooms_array
  end  
  
- def new_reservation(start_date: Time.now, end_date: Time.now+SECONDS_PER_DAY)
+ def new_reservation(start_date: Date.today, end_date: Date.today+1)
   start_date = start_date
   end_date = end_date
   reservation_id = @reservations.length + 1
