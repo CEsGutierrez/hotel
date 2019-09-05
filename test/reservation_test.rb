@@ -36,16 +36,12 @@ describe Reservation do
  
  it "instance of reservation knows its cost" do
   test_trip_duration = @test_reservation.end_date - @test_reservation.start_date
-  
   test_room_cost = @test_room.cost
-  
   expected_test_trip_cost = test_trip_duration * test_room_cost
-  
   expect(@test_reservation.reservation_cost).must_equal expected_test_trip_cost
  end
  
  it "instance of reservation knows its reservation ID number" do
-  
   expect(@test_reservation.reservation_id).must_equal @test_reservation_id
  end
  
@@ -53,11 +49,7 @@ describe Reservation do
   expect(@test_reservation.block_label).must_be_nil
  end
  
- it "default date for all reservations is today" do
+ it "verifies that the dates in reservations are a kind of date" do
  end
- 
- it "default end date for all reservations is tomorrow" do
- end
- 
  
 end

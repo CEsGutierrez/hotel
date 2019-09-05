@@ -22,6 +22,7 @@ class Reservation
   end
   
  end
+ 
 end
 
 

@@ -1,26 +1,39 @@
+require "date"
+
 class DateMediator
- require "date"
- def date_checker (range_start:, range_end:, start_date:, end_date:)
-  range_start = Date.parse(range_start)
-  range_end = Date.parse(range_end)
-  start_date = Date.parse(start_date)
-  end_date = Date.parse(end_date)
+ 
+ attr_reader :range_start, :range_end, :start_date, :end_date 
+ 
+ def initialize(range_start:, range_end:, start_date:, end_date:)
   
-  conflict = nil
-  begin_date = start_date
+  # Checks that the dates being checked are in the appropriate format
+  # The range_start and range_end come from previous reservations and had better not be anything other than instances of time
+  @range_start = range_start
+  @range_end = range_end
+  @start_date = start_date
+  @end_date = end_date
   
-  while begin_date < end_date do
-   if begin_date.between?(range_start, range_end)
-    conflict = "True"
-    puts begin_date
-    begin_date += 1
-   else
-    puts "no conflict for #{begin_date}"
-    begin_date += 1
-   end
+  
+  if (start_date.class != Date || end_date.class != Date)
+   raise ArgumentError.new "start and end dates are not instances of date"
   end
  end
+ 
+ def main_function
+  conflict_statement = 0
+  check_start = start_date
+  
+  while check_start< end_date do
+   if check_start.between?(range_start, range_end)
+    conflict_statement += 1 
+    check_start += 1
+   else
+    check_start += 1
+   end
+  end
+  
+  return conflict_statement
+  
+ end
+ 
 end
-
-# This code works. So at the moment, there's just a simple test to see if there is a date conflict or not. 
-# I imagine that this will have to fit somewhere

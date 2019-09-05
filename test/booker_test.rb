@@ -24,6 +24,20 @@ describe Booker do
  end
  
  
+ it "default date for all reservations is today" do
+ end
+ 
+ it "default end date for all reservations is tomorrow" do
+ end
+ 
+ it "instigates instances of reservation with dates as instances of Date" do
+ end
+ 
+ it "instigates instances of reservation" do
+ end
+ 
+ 
+ 
 end
 describe "reporting abilities" do
  before do
