@@ -22,12 +22,24 @@ class Booker
   return rooms_array
  end  
  
+ # def reservations_by_room 
+ #  @reservations_by_room = @rooms.map do |room|
+ #   @reservations.each do |reservation|
+ #    reservation_cache = []
+ #    if reservation.room_id == room.id
+ #     reservation_cache << [reservation.start_date, reservation.end_date]
+ #    end
+ #   end
+ #   {:room => room.id, :reservations => reservation_cache}
+ #  end
+ #  return reservations_by_room
+ # end
+ 
  def new_reservation(start_date: Date.today, end_date: Date.today+1)
-  start_date = Date.parse(start_date)
-  end_date = Date.parse(end_date)
-  #run the checker here to assign the room
-  reservation_id = @reservations.length + 1
-  reservations << Reservation.new(start_date: start_date, end_date: end_date, room_id: 2)
+  start_date = Date.parse("#{start_date}")
+  end_date = Date.parse("#{end_date}")
+  reservation_id = @reservations.length
+  reservations << Reservation.new(start_date: start_date, end_date: end_date, room_id: rooms.sample, reservation_id: reservation_id)
  end
  
  def list_room_ids
@@ -38,15 +50,15 @@ class Booker
   return room_id_list
  end
  
- def list_reservations_for_room(room_id)
-  reservations_for_room = []
-  @reservations.each do |reservation|
-   if reservation.room_id == room_id
-    reservations_for_room << reservation
-   end
-  end
-  return reservations_for_room
- end
+ # def list_reservations_for_room(room_id)
+ #  reservations_for_room = []
+ #  @reservations.each do |reservation|
+ #   if reservation.room_id == room_id
+ #    reservations_for_room << reservation
+ #   end
+ #  end
+ #  return reservations_for_room
+ # end
  
  
  

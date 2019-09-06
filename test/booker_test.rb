@@ -23,7 +23,6 @@ describe Booker do
   expect(@booker.new_reservation[arbitrary_test_reservation_position]).must_be_kind_of Reservation
  end
  
- 
  it "default date for all reservations is today" do
  end
  
@@ -39,14 +38,16 @@ describe Booker do
  
  
 end
-describe "reporting abilities" do
+describe "Booker's reporting abilities" do
  before do
   @new_hotel = Booker.new
   @test_reservation = @new_hotel.new_reservation
- end
- 
- it "can list all the rooms in the hotel by their ID number" do
+  # @new_hotel.reservations.each do |reservation|
   
+  #  puts "#{reservation.room_id.id}"
+  # end
+ end 
+ it "can list all the rooms in the hotel by their ID number" do
   expect(@new_hotel.list_room_ids.length).must_equal 20
   expect(@new_hotel.list_room_ids.uniq).must_equal @new_hotel.list_room_ids
   
@@ -69,8 +70,12 @@ describe "reporting abilities" do
    expect(@new_hotel.reservations[3].reservation_id).must_equal 3
   end
   
-  it "can list all reservations for a given period of time" do
+  xit "can list all reservations for a given period of time" do
   end
+  
+ end
+ 
+ xit "can assemble a collection of all the reserved dates for a given room" do
   
  end
  

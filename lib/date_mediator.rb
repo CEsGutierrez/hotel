@@ -27,12 +27,9 @@ class DateMediator
   while check_start <= end_date do
    if check_start.between?(range_start, range_end)
     conflict_statement += 1 
-    puts "I have a conflict #{check_start
-    }"
     check_start += 1
    else
-    puts "I have no conflict #{check_start
-    }"
+    
     check_start += 1
    end
   end
