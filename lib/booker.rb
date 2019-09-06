@@ -36,8 +36,12 @@ class Booker
  # end
  
  def new_reservation(start_date: Date.today, end_date: Date.today+1)
-  start_date = Date.parse("#{start_date}")
-  end_date = Date.parse("#{end_date}")
+  if start_date.class != Date
+   start_date = Date.parse("#{start_date}")
+  end
+  if end_date.class != Date
+   end_date = Date.parse("#{end_date}")
+  end
   reservation_id = @reservations.length
   reservations << Reservation.new(start_date: start_date, end_date: end_date, room_id: rooms.sample, reservation_id: reservation_id)
  end

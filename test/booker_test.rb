@@ -57,7 +57,7 @@ describe "Booker's reporting abilities" do
    @new_hotel = Booker.new
    @arbitrary_new_reservations = 6
    @arbitrary_new_reservations.times do
-    @test_reservation = @new_hotel.new_reservation
+   @test_reservation = @new_hotel.new_reservation
    end
   end
   
