@@ -2,6 +2,7 @@ require 'date'
 require_relative 'room'
 require_relative 'reservation'
 require_relative 'reporter'
+require_relative 'date_mediator'
 
 class Booker
  
@@ -74,5 +75,8 @@ class Booker
    available_rooms_in_range.delete(room_number)
   end
   return available_rooms_in_range  
+ end
+ 
+ def room_picker
  end
 end
