@@ -74,7 +74,7 @@ describe "Booker's reporting abilities" do
    expect(@new_hotel.reservations.uniq).must_equal @new_hotel.reservations
   end
   
-  it "can access room-specific reservation history" do
+  it "can access rooms from reservation history" do
    expect(@new_hotel.reservations[3].reservation_id).must_equal 4
   end
   
@@ -98,14 +98,37 @@ describe "Booker's reporting abilities" do
    test_range_start = "2020-03-30"
    test_range_end = "2020-04-15"
    
-   expect(@new_hotel.list_reservations_for_range(range_start: test_range_start, range_end: test_range_end).length).must_equal 3
-   expect(@new_hotel.list_reservations_for_range(range_start: test_range_start, range_end: test_range_end)[0]).must_be_kind_of Reservation
+   expect(@new_hotel.lists_reservations_for_range(range_start: test_range_start, range_end: test_range_end).length).must_equal 3
+   expect(@new_hotel.lists_reservations_for_range(range_start: test_range_start, range_end: test_range_end)[0]).must_be_kind_of Reservation
   end
   
+  it "can list all available rooms for a given period of time" do
+   
+   # creates 3 reservations for April 2020
+   additional_reservations = 3
+   start_date = "2020-04-01"
+   end_date = "2020-04-10"
+   additional_reservations.times do
+    @another_test_reservation = @new_hotel.new_reservation(start_date: start_date, end_date: end_date)
+   end
+   
+   # creates 3 reservations for May 2020
+   additional_reservations = 3
+   start_date = "2020-05-01"
+   end_date = "2020-05-10"
+   additional_reservations.times do
+    @another_test_reservation = @new_hotel.new_reservation(start_date: start_date, end_date: end_date)
+   end
+   
+   test_range_start = "2020-03-30"
+   test_range_end = "2020-04-15"
+   
+   expect(@new_hotel.lists_available_rooms_for_range(range_start: test_range_start, range_end: test_range_end).length).must_equal 17
+  end
+   
  end
  
- xit "can assemble a collection of all the reserved dates for a given room" do
-  
+ xit "can assemble a collection of all the reserved dates for a given room" do  
  end
  
  xdescribe "blocking abilities" do

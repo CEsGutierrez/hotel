@@ -41,7 +41,7 @@ class Booker
   return room_id_list
  end
  
- def list_reservations_for_range(range_start:, range_end: )
+ def lists_reservations_for_range(range_start:, range_end: )
   reservations_in_range = []
   range_start = Date.parse(range_start)
   range_end = Date.parse(range_end)
@@ -54,7 +54,25 @@ class Booker
    end
   end
   return reservations_in_range
-  
  end
  
+ def lists_available_rooms_for_range(range_start:, range_end: )
+  available_rooms_in_range = []
+  booked_rooms = []
+  range_start = Date.parse(range_start)
+  range_end = Date.parse(range_end)
+  
+  @reservations.each do |reservation|
+   start_date = reservation.start_date 
+   end_date = reservation.end_date
+   if DateMediator.new(range_start: range_start, range_end: range_end, start_date: start_date, end_date: end_date).main_function > 0
+    booked_rooms << reservation.room_id.id
+   end
+  end
+  available_rooms_in_range = list_room_ids
+  booked_rooms.each do |room_number|
+   available_rooms_in_range.delete(room_number)
+  end
+  return available_rooms_in_range  
+ end
 end
