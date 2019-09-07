@@ -24,12 +24,24 @@ describe Booker do
  end
  
  it "default date for all reservations is today" do
+  default_date = Date.today
+  expect(@booker.new_reservation[0].start_date).must_equal default_date
  end
  
  it "default end date for all reservations is tomorrow" do
+  default_end_date = Date.today + 1
+  expect(@booker.new_reservation[0].end_date).must_equal default_end_date
  end
  
- it "instigates instances of reservation with dates as instances of Date" do
+ it "converts stringy dates for reservations into instances of date" do
+  
+  test_start_date = "2020-01-02"
+  test_end_date = "2020-01-05"
+  
+  test_reservation = @booker.new_reservation(start_date: test_start_date, end_date: test_end_date)
+  
+  expect(test_reservation[0].end_date).must_equal Date.parse(test_end_date)
+  
  end
  
  it "instigates instances of reservation" do
@@ -42,10 +54,6 @@ describe "Booker's reporting abilities" do
  before do
   @new_hotel = Booker.new
   @test_reservation = @new_hotel.new_reservation
-  # @new_hotel.reservations.each do |reservation|
-  
-  #  puts "#{reservation.room_id.id}"
-  # end
  end 
  it "can list all the rooms in the hotel by their ID number" do
   expect(@new_hotel.list_room_ids.length).must_equal 20
@@ -57,7 +65,7 @@ describe "Booker's reporting abilities" do
    @new_hotel = Booker.new
    @arbitrary_new_reservations = 6
    @arbitrary_new_reservations.times do
-   @test_reservation = @new_hotel.new_reservation
+    @test_reservation = @new_hotel.new_reservation
    end
   end
   
@@ -67,10 +75,31 @@ describe "Booker's reporting abilities" do
   end
   
   it "can access room-specific reservation history" do
-   expect(@new_hotel.reservations[3].reservation_id).must_equal 3
+   expect(@new_hotel.reservations[3].reservation_id).must_equal 4
   end
   
-  xit "can list all reservations for a given period of time" do
+  it "can list all reservations for a given period of time" do
+   # creates 3 reservations for April 2020
+   additional_reservations = 3
+   start_date = "2020-04-01"
+   end_date = "2020-04-10"
+   additional_reservations.times do
+    @another_test_reservation = @new_hotel.new_reservation(start_date: start_date, end_date: end_date)
+   end
+   
+   # creates 3 reservations for May 2020
+   additional_reservations = 3
+   start_date = "2020-05-01"
+   end_date = "2020-05-10"
+   additional_reservations.times do
+    @another_test_reservation = @new_hotel.new_reservation(start_date: start_date, end_date: end_date)
+   end
+   
+   test_range_start = "2020-03-30"
+   test_range_end = "2020-04-15"
+   
+   expect(@new_hotel.list_reservations_for_range(range_start: test_range_start, range_end: test_range_end).length).must_equal 3
+   expect(@new_hotel.list_reservations_for_range(range_start: test_range_start, range_end: test_range_end)[0]).must_be_kind_of Reservation
   end
   
  end
