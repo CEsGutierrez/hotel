@@ -1,9 +1,7 @@
 require 'date'
 require_relative 'room'
 require_relative 'reservation'
-# require_relative 'reporter'
 require_relative 'date_mediator'
-
 
 class Booker
  
@@ -19,7 +17,7 @@ class Booker
  def populate_hotel
   rooms_array = []
   i = 1
-  until i == 21 do 
+  while i <= HOTEL_CAPACITY  do 
    rooms_array << Room.new(id: i)
    i = i + 1
   end
@@ -70,11 +68,10 @@ class Booker
   return room_id_list
  end
  
- def lists_reservations_for_range(range_start: Date.today.to_s, range_end: Date.today+1.to_s )
+ def lists_reservations_for_range(range_start: Date.today, range_end: Date.today)
   reservations_in_range = []
   digested_range_start = date_digester(range_start)
   digested_range_end = date_digester(range_end)
-  
   @reservations.each do |reservation|
    start_date = reservation.start_date 
    end_date = reservation.end_date
@@ -90,7 +87,6 @@ class Booker
   booked_rooms = []
   digested_range_start = date_digester(range_start)
   digested_range_end = date_digester(range_end)
-  
   @reservations.each do |reservation|
    start_date = reservation.start_date 
    end_date = reservation.end_date
@@ -98,9 +94,7 @@ class Booker
     booked_rooms << reservation.room_id
    end
   end
-  
   available_rooms_in_range = list_room_ids
-  
   booked_rooms.each do |room_number|
    available_rooms_in_range.delete(room_number)
   end
