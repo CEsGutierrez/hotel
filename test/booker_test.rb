@@ -60,7 +60,7 @@ describe "Booker's reporting abilities" do
  end
  
  it "room_picker returns the first available room for a given period of time" do
-  expect(@new_hotel.reservations[0].room_id.id).must_equal 1
+  expect(@new_hotel.reservations[0].room_id).must_equal 1
  end
 end
 
@@ -71,6 +71,13 @@ describe "Booking multiple reservations" do
   @arbitrary_new_reservations.times do
    @test_reservation = @new_hotel.new_reservation
   end
+ end
+ 
+ it "room_picker returns the first available room without conflict for a given date" do
+  room_number = 6
+  room_index = room_number - 1
+  expect(@new_hotel.reservations[room_index].room_id).must_equal room_number
+  expect
  end
  
  it "is compiling a list of reservations made" do
@@ -130,8 +137,16 @@ describe "Booking multiple reservations" do
   expect(@new_hotel.lists_available_rooms_for_range(range_start: test_range_start, range_end: test_range_end).length).must_equal 17
  end
  
- xit "can assemble a collection of all the reserved dates for a given room" do  
+ it "throws an ArgumentError when hotel runs out of rooms" do
+  # buys out the hotel, note without a date range all dates are defaulting to Date.today and Date.today + 1
+  
+  @new_hotel = Booker.new
+  expect{
+   200.times {@new_hotel.new_reservation}
+  }.must_raise ArgumentError
+  
  end
+ 
  
  xdescribe "blocking abilities" do
   xit "booker can instigate instances of blocks" do #This is where I'm placeholding additional tests for later

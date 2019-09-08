@@ -13,7 +13,6 @@ class DateMediator
   @start_date = start_date
   @end_date = end_date
   
-  
   if (start_date.class != Date || end_date.class != Date)
    raise ArgumentError.new "start and end dates are not instances of date"
   end

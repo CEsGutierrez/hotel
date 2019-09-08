@@ -15,8 +15,13 @@ class Reservation
   if start_date.class != Date
    raise ArgumentError.new "dates must be instances of Date"
   end
+  
   if end_date.class != Date
    raise ArgumentError.new "dates must be instances of Date"
+  end
+  
+  unless (1...20).include? room_id
+   raise ArgumentError.new "no room assigned for this reservation"
   end
   
   @room_id = room_id

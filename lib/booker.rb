@@ -31,7 +31,10 @@ class Booker
    end_date = Date.parse("#{end_date}")
   end
   reservation_id = reservations.length + 1
-  reservations << Reservation.new(start_date: start_date, end_date: end_date, room_id: rooms.sample, reservation_id: reservation_id)
+  
+  selected_room = room_picker(range_start: start_date, range_end: end_date)
+  
+  reservations << Reservation.new(start_date: start_date, end_date: end_date, room_id: selected_room, reservation_id: reservation_id)
  end
  
  def list_room_ids
@@ -42,10 +45,14 @@ class Booker
   return room_id_list
  end
  
- def lists_reservations_for_range(range_start:, range_end: )
+ def lists_reservations_for_range(range_start: Date.today.to_s, range_end: Date.today+1.to_s )
   reservations_in_range = []
-  range_start = Date.parse(range_start)
-  range_end = Date.parse(range_end)
+  if range_start.class != Date
+   range_start = Date.parse(range_start)
+  end
+  if range_end.class!= Date
+   range_end = Date.parse(range_end)
+  end
   
   @reservations.each do |reservation|
    start_date = reservation.start_date 
@@ -60,14 +67,18 @@ class Booker
  def lists_available_rooms_for_range(range_start:, range_end: )
   available_rooms_in_range = []
   booked_rooms = []
-  range_start = Date.parse(range_start)
-  range_end = Date.parse(range_end)
+  if range_start.class != Date
+   range_start = Date.parse(range_start)
+  end
+  if range_end.class != Date
+   range_end = Date.parse(range_end)
+  end
   
   @reservations.each do |reservation|
    start_date = reservation.start_date 
    end_date = reservation.end_date
-   if DateMediator.new(range_start: range_start, range_end: range_end, start_date: start_date, end_date: end_date).main_function > 0
-    booked_rooms << reservation.room_id.id
+   if DateMediator.new(range_start: range_start, range_end: range_end, start_date: start_date, end_date: end_date).conflicting_dates > 0
+    booked_rooms << reservation.room_id
    end
   end
   available_rooms_in_range = list_room_ids
@@ -77,6 +88,15 @@ class Booker
   return available_rooms_in_range  
  end
  
- def room_picker
+ def room_picker(range_start: , range_end: )
+  range_start = range_start
+  range_end = range_end
+  available_rooms = lists_available_rooms_for_range(range_start: range_start, range_end: range_end)
+  if available_rooms.length > 0
+   return available_rooms[0]
+  else
+   return nil
+  end
+  
  end
 end
