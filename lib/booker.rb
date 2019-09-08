@@ -12,6 +12,7 @@ class Booker
  def initialize 
   @rooms = populate_hotel
   @reservations = []
+  @reserved_blocks = []
  end
  
  def populate_hotel
@@ -43,6 +44,26 @@ class Booker
   
  end
  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  def date_digester(date)
   if date.class != Date
    digested_date = Date.parse("#{date}")
