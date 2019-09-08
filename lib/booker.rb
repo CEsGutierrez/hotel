@@ -1,7 +1,7 @@
 require 'date'
 require_relative 'room'
 require_relative 'reservation'
-require_relative 'reporter'
+# require_relative 'reporter'
 require_relative 'date_mediator'
 
 
@@ -33,6 +33,11 @@ class Booker
   if end_date.class != Date
    end_date = Date.parse("#{end_date}")
   end
+  
+  if start_date > end_date
+   raise ArgumentError.new "Invalid date range"
+  end
+  
   reservation_id = reservations.length + 1
   
   selected_room = room_picker(range_start: start_date, range_end: end_date)
@@ -40,9 +45,6 @@ class Booker
   unless (1..HOTEL_CAPACITY).include? selected_room
    raise ArgumentError.new "no room assigned for this reservation"
   end
-  
-  
-  
   
   reservations << Reservation.new(start_date: start_date, end_date: end_date, room_id: selected_room, reservation_id: reservation_id)
  end

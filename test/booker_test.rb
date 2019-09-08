@@ -11,7 +11,6 @@ describe "Booker basic functions" do
  
  it "hotel population is made up of rooms" do
   arbitrary_test_room_id = 2
-  
   expect(@booker.rooms[arbitrary_test_room_id]).must_be_kind_of Room
  end
  
@@ -35,17 +34,17 @@ describe "Booker basic functions" do
  end
  
  it "converts stringy dates for reservations into instances of date" do
-  
   test_start_date = "2020-01-02"
   test_end_date = "2020-01-05"
-  
   test_reservation = @booker.new_reservation(start_date: test_start_date, end_date: test_end_date)
-  
   expect(test_reservation[0].end_date).must_equal Date.parse(test_end_date)
-  
  end
  
  it "instigates instances of reservation" do
+ end
+ 
+ it "verifies that the desired start date for a reservation is before the end date" do
+  expect{@booker.new_reservation(start_date: Date.today+1, end_date: Date.today)}.must_raise ArgumentError
  end
 end
 
@@ -141,17 +140,8 @@ describe "Booking multiple reservations" do
   # buys out the hotel, note without a date range all dates are defaulting to Date.today and Date.today + 1
   
   @new_hotel = Booker.new
-  expect{
-   200.times {@new_hotel.new_reservation}
-  }.must_raise ArgumentError
+  expect{200.times{@new_hotel.new_reservation}}.must_raise ArgumentError
   expect(@new_hotel.reservations.length).must_equal 20
-  
- end
- 
- 
- xdescribe "blocking abilities" do
-  xit "booker can instigate instances of blocks" do #This is where I'm placeholding additional tests for later
-  end
   
  end
  
