@@ -2,7 +2,6 @@
 require_relative 'room'
 
 class Reservation 
-
  
  attr_reader :start_date, :end_date, :room_id, :reservation_cost, :reservation_id, :block_label
  
@@ -21,8 +20,6 @@ class Reservation
    raise ArgumentError.new "dates must be instances of Date"
   end
   
-  
-  
   @room_id = room_id
   @reservation_id = reservation_id
   @block_label = block_label
@@ -34,7 +31,8 @@ class Reservation
   @reservation_cost = room_cost * reservation_duration
   
   if block_label != nil
-   @reservation_cost = @reservation_cost * BLOCK_DISCOUNT
+   @reservation_cost = @reservation_cost * (100-Block.discount/100)
+   
   end
   
   
