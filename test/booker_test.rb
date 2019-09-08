@@ -146,3 +146,40 @@ describe "Booking multiple reservations" do
  end
  
 end
+
+describe "registering a block" do
+ 
+ # before do
+ #  @test_start_date = Date.parse("2019-09-03")
+ #  @test_end_date = Date.parse("2019-09-07")
+ #  @test_room_number = 4
+  
+ #  @new_hotel = Booker.new
+  
+ #  @test_block = @new_hotel.new_block(start_date: @test_start_date, end_date: @test_end_date , number_of_rooms: @test_room_number)
+  
+ # end
+ 
+ it "booker raises an argumenterror if the number of rooms requested exceeds the number of rooms available in the hotel" do
+ end
+ 
+ it "booker raises an argumenterror if the dates passed into it for the creation of the new block have an invalid date range" do
+ end
+ 
+ it "booker defaults to Today as the start date for a block" do
+ end
+ 
+ it "booker defaults to Tomorrow as the end date for a block" do
+ end
+ 
+ it "booker defaults to 2 rooms for the minimum of a block" do
+ end
+ 
+ it "booker throws an argument error if the number of rooms requested for a block is more than 5" do
+ end
+ 
+ it "booker adds the new blocks into reservations to avoid booking over them" do
+ end
+ 
+ 
+end
