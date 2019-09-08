@@ -27,26 +27,39 @@ class Booker
  end  
  
  def new_reservation(start_date: Date.today, end_date: Date.today+1)
-  if start_date.class != Date
-   start_date = Date.parse("#{start_date}")
-  end
-  if end_date.class != Date
-   end_date = Date.parse("#{end_date}")
-  end
   
-  if start_date > end_date
-   raise ArgumentError.new "Invalid date range"
-  end
+  digested_start_date = date_digester(start_date)
+  digested_end_date = date_digester(end_date)
+  
+  date_validator(digested_start_date, digested_end_date)
   
   reservation_id = reservations.length + 1
   
-  selected_room = room_picker(range_start: start_date, range_end: end_date)
+  selected_room = room_picker(range_start: digested_start_date, range_end: digested_end_date)
   
   unless (1..HOTEL_CAPACITY).include? selected_room
    raise ArgumentError.new "no room assigned for this reservation"
   end
   
-  reservations << Reservation.new(start_date: start_date, end_date: end_date, room_id: selected_room, reservation_id: reservation_id)
+  reservations << Reservation.new(start_date: digested_start_date, end_date: digested_end_date, room_id: selected_room, reservation_id: reservation_id)
+  
+ end
+ 
+ def date_digester(date)
+  if date.class != Date
+   digested_date = Date.parse("#{date}")
+  else
+   digested_date = date
+  end
+  
+  return digested_date
+ end
+ 
+ def date_validator(first_date, second_date)
+  # works with instances of date
+  if first_date > second_date
+   raise ArgumentError.new "Invalid date range"
+  end
  end
  
  def list_room_ids
