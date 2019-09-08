@@ -2,6 +2,7 @@
 require_relative 'room'
 
 class Reservation 
+ HOTEL_CAPACITY = 20
  
  attr_reader :start_date, :end_date, :room_id, :reservation_cost, :reservation_id, :block_label
  
@@ -20,7 +21,7 @@ class Reservation
    raise ArgumentError.new "dates must be instances of Date"
   end
   
-  unless (1...20).include? room_id
+  unless (1..HOTEL_CAPACITY).include? room_id
    raise ArgumentError.new "no room assigned for this reservation"
   end
   

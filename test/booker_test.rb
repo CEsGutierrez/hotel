@@ -137,13 +137,14 @@ describe "Booking multiple reservations" do
   expect(@new_hotel.lists_available_rooms_for_range(range_start: test_range_start, range_end: test_range_end).length).must_equal 17
  end
  
- it "throws an ArgumentError when hotel runs out of rooms" do
+ it "throws an ArgumentError when hotel runs out of rooms and blocks the additional instances of Reservations for that block of time" do
   # buys out the hotel, note without a date range all dates are defaulting to Date.today and Date.today + 1
   
   @new_hotel = Booker.new
   expect{
    200.times {@new_hotel.new_reservation}
   }.must_raise ArgumentError
+  expect(@new_hotel.reservations.length).must_equal 20
   
  end
  
