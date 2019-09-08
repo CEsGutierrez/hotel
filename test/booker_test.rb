@@ -153,12 +153,13 @@ describe "registering a block" do
  #  @test_start_date = Date.parse("2019-09-03")
  #  @test_end_date = Date.parse("2019-09-07")
  #  @test_room_number = 4
-  
+ 
  #  @new_hotel = Booker.new
-  
+ 
  #  @test_block = @new_hotel.new_block(start_date: @test_start_date, end_date: @test_end_date , number_of_rooms: @test_room_number)
-  
+ 
  # end
+ 
  
  it "booker raises an argumenterror if the number of rooms requested exceeds the number of rooms available in the hotel" do
  end
@@ -178,8 +179,34 @@ describe "registering a block" do
  it "booker throws an argument error if the number of rooms requested for a block is more than 5" do
  end
  
- it "booker adds the new blocks into reservations to avoid booking over them" do
+ it "booker creates block_holders and adds them into reservations to work as blocks against booking over the block" do
  end
  
+ it "booker treats blocked rooms as reserved, does not allow a reservation to be booked over them" do
+ end
+ 
+ it "booker does not list blocked rooms as available for date range" do
+ end
+ 
+ it "booker does not list blocked rooms as reservations for date range" do
+ end
+ 
+ it "booker assigns block-label based on the historical number of blocks that have beenbooked in the hotel. Like whatever the maximum number was before it's that plus one. Numbers will not be recycled, they will just creep upward forever. " do
+ end
+ 
+ it "booker can keep track of how many block_holders are associated with a block" do
+ end
+ 
+ it "booker can convert block_holders into reservations" do
+ end
+ 
+ it "when reservations are made from blocks, they retain the block's originally assigned rooms, start date, end date" do
+ end
+ 
+ it "when reservations are made from blocks, they include the discounted price" do
+ end
+ 
+ it "when reservations are made from blocks, the number of available rooms for that block is divinable" do
+ end
  
 end

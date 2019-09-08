@@ -42,3 +42,29 @@
 #  end
 
 # end
+
+
+
+require_relative 'test_helper'
+
+describe 'block characteristics' do
+ 
+before do
+# make a new hotel
+# make a new instance of block
+end
+
+ it "instance of block knows it's an instance of Block" do
+ end
+ 
+ it "instance of block knows its start date and end date" do
+ end
+ 
+ it "instance of block knows its discount rate" do
+ end
+ 
+ it "instance of block knows how many rooms it's requiring" do
+ end
+ 
+ 
+end
