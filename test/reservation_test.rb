@@ -56,5 +56,4 @@ describe Reservation do
   }.must_raise ArgumentError
  end
  
- 
 end
