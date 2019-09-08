@@ -72,17 +72,13 @@ class Booker
  
  def lists_reservations_for_range(range_start: Date.today.to_s, range_end: Date.today+1.to_s )
   reservations_in_range = []
-  if range_start.class != Date
-   range_start = Date.parse(range_start)
-  end
-  if range_end.class!= Date
-   range_end = Date.parse(range_end)
-  end
+  digested_range_start = date_digester(range_start)
+  digested_range_end = date_digester(range_end)
   
   @reservations.each do |reservation|
    start_date = reservation.start_date 
    end_date = reservation.end_date
-   if DateMediator.new(range_start: range_start, range_end: range_end, start_date: start_date, end_date: end_date).main_function > 0
+   if DateMediator.new(range_start: digested_range_start, range_end: digested_range_end, start_date: start_date, end_date: end_date).main_function > 0
     reservations_in_range << reservation
    end
   end
@@ -92,21 +88,19 @@ class Booker
  def lists_available_rooms_for_range(range_start:, range_end: )
   available_rooms_in_range = []
   booked_rooms = []
-  if range_start.class != Date
-   range_start = Date.parse(range_start)
-  end
-  if range_end.class != Date
-   range_end = Date.parse(range_end)
-  end
+  digested_range_start = date_digester(range_start)
+  digested_range_end = date_digester(range_end)
   
   @reservations.each do |reservation|
    start_date = reservation.start_date 
    end_date = reservation.end_date
-   if DateMediator.new(range_start: range_start, range_end: range_end, start_date: start_date, end_date: end_date).conflicting_dates > 0
+   if DateMediator.new(range_start: digested_range_start, range_end: digested_range_end, start_date: start_date, end_date: end_date).conflicting_dates > 0
     booked_rooms << reservation.room_id
    end
   end
+  
   available_rooms_in_range = list_room_ids
+  
   booked_rooms.each do |room_number|
    available_rooms_in_range.delete(room_number)
   end
