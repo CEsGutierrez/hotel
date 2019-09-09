@@ -3,7 +3,10 @@ require_relative 'room'
 require_relative 'reservation'
 require_relative 'date_mediator'
 
+
 class Booker
+ 
+ # attr_reader :HOTEL_CAPACITY, :BLOCK_DISCOUNT
  
  attr_accessor :rooms, :reservations
  
@@ -154,4 +157,13 @@ class Booker
   end
   
  end
+ 
+ def self.hotel_capacity
+  return HOTEL_CAPACITY
+ end
+ 
+ def self.block_discount
+  return BLOCK_DISCOUNT
+ end
+ 
 end

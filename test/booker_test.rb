@@ -138,7 +138,6 @@ describe "Booking multiple reservations" do
  
  it "throws an ArgumentError when hotel runs out of rooms and blocks the additional instances of Reservations for that block of time" do
   # buys out the hotel, note without a date range all dates are defaulting to Date.today and Date.today + 1
-  
   @new_hotel = Booker.new
   expect{200.times{@new_hotel.new_reservation}}.must_raise ArgumentError
   expect(@new_hotel.reservations.length).must_equal 20
@@ -147,51 +146,130 @@ describe "Booking multiple reservations" do
  
 end
 
-describe "registering a block" do
- 
- # before do
- #  @test_start_date = Date.parse("2019-09-03")
- #  @test_end_date = Date.parse("2019-09-07")
- #  @test_room_number = 4
- 
- #  @new_hotel = Booker.new
- 
- #  @test_block = @new_hotel.new_block(start_date: @test_start_date, end_date: @test_end_date , number_of_rooms: @test_room_number)
- 
- # end
- 
+# describe "registering a block" do
+
+#  before do
+#   @test_start_date = Date.parse("2019-09-03")
+#   @test_end_date = Date.parse("2019-09-07")
+#   @test_rooms_requested = 4
+
+#   @new_hotel = Booker.new
+
+#   @test_block = @new_hotel.new_block(start_date: @test_start_date, end_date: @test_end_date , number_of_rooms: @test_rooms_requested)
+#  end
+# end
+
+describe "booker conflicts with blocks" do
+ before do
+  @new_hotel = Booker.new
+ end
  
  it "booker raises an argumenterror if the number of rooms requested exceeds the number of rooms available in the hotel" do
+  # fills up the hotel with blocks to exceed capacity
+  19.times do
+   @new_hotel.new_reservation
+  end
+  @test_start_date = Date.parse("2019-09-03")
+  @test_end_date = Date.parse("2019-09-07")
+  @test_rooms_requested = 4
+  
+  expect{
+   test_block = @new_hotel.new_block(start_date: @test_start_date, end_date: @test_end_date , number_of_rooms: @test_rooms_requested)
+  }.must_raise ArgumentError
  end
  
  it "booker raises an argumenterror if the dates passed into it for the creation of the new block have an invalid date range" do
+  @test_start_date = Date.parse("2019-09-07")
+  @test_end_date = Date.parse("2019-09-03")
+  @test_rooms_requested = 4
+  expect{
+   @test_block = @new_hotel.new_block(start_date: @test_start_date, end_date: @test_end_date , number_of_rooms: @test_rooms_requested)
+  }.must_raise ArgumentError
  end
  
- it "booker defaults to Today as the start date for a block" do
- end
- 
- it "booker defaults to Tomorrow as the end date for a block" do
+ it "booker defaults to Today as the start date for a block and tomorrow as the end date for a block" do
+  @test_rooms_requested = 4
+  @test_block = @new_hotel.new_block(number_of_rooms: @test_rooms_requested)
+  expect(@test_block.start_date).must_equal Date.today
+  expect(@test_block.end_date).must_equal Date.today + 1
  end
  
  it "booker defaults to 2 rooms for the minimum of a block" do
+  @test_start_date = Date.parse("2019-09-03")
+  @test_end_date = Date.parse("2019-09-07")
+  
+  test_block = @new_hotel.new_block(start_date: @test_start_date, end_date: @test_end_date)
+  expect(test_block.number_of_rooms).must_equal 2
  end
  
  it "booker throws an argument error if the number of rooms requested for a block is more than 5" do
+  @test_start_date = Date.parse("2019-09-03")
+  @test_end_date = Date.parse("2019-09-07")
+  @test_rooms_requested = 6
+  
+  expect{
+   test_block = @new_hotel.new_block(start_date: @test_start_date, end_date: @test_end_date , number_of_rooms: @test_rooms_requested)
+  }.must_raise ArgumentError
+ end
+ 
+ it "booker knows the block discount rate" do
+  @test_start_date = Date.parse("2019-09-03")
+  @test_end_date = Date.parse("2019-09-07")
+  @test_rooms_requested = 4
+  
+  test_block = @new_hotel.new_block(start_date: @test_start_date, end_date: @test_end_date, number_of_rooms: @test_rooms_requested)
+  
+  expected_discount = Booker.BLOCK_DISCOUNT
+  
+  expect(test_block.discount).must_equal expected_discount
+ end
+ 
+ # it "instance of block knows its discount rate" do
+ #  expected_discount = Block.discount
+ #  expect(@test_block.discount).must_equal 
+ # end
+ 
+end
+
+describe "booker creating new blocks and interactions with reservations" do
+ before do
+  @new_hotel = Booker.new
+  5.times do
+   test_reservations = @new_hotel.new_reservation
+  end
  end
  
  it "booker creates block_holders and adds them into reservations to work as blocks against booking over the block" do
+  # by default, adds 2 new reservations also for Today to Tomorrow
+  test_block = @new_hotel.new_block
+  expect(@new_hotel.reservations.length).must_equal 7
  end
  
  it "booker treats blocked rooms as reserved, does not allow a reservation to be booked over them" do
+  # fills up hotel with 5 previously made reservations, a new block of 2 placeholders, and 13 additional reservations
+  test_block = @new_hotel.new_block
+  13.times do
+   test_reservations = @new_hotel.new_reservation
+  end
+  # verifies that the hotel will not allow additional reservations
+  expect{@new_hotel.new_reservation}.must_raise ArgumentError
  end
  
  it "booker does not list blocked rooms as available for date range" do
+  test_block = @new_hotel.new_block
+  expect(@new_hotel.lists_available_rooms_for_range(range_start: Date.today, range_end: Date.today + 1).length).must_equal 13
  end
  
  it "booker does not list blocked rooms as reservations for date range" do
+  test_block = @new_hotel.new_block
+  expect(@new_hotel.lists_reservations_for_range(range_start: Date.today, range_end: Date.today + 1).length).must_equal 5
  end
  
  it "booker assigns block-label based on the historical number of blocks that have beenbooked in the hotel. Like whatever the maximum number was before it's that plus one. Numbers will not be recycled, they will just creep upward forever. " do
+  test_block = @new_hotel.new_block
+  expect(test_block.block_label).must_equal 1
+  another_test_block = @new_hotel.new_block
+  expect(another_test_block.block_label).must_equal 2
  end
  
  it "booker can keep track of how many block_holders are associated with a block" do

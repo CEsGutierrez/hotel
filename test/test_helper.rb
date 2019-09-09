@@ -17,3 +17,4 @@ require_relative '../lib/booker'
 require_relative '../lib/date_mediator'
 require_relative '../lib/reservation'
 require_relative '../lib/room'
+

@@ -2,6 +2,7 @@
 require_relative 'room'
 
 class Block 
+ 
 end
 
 #  attr_reader :start_date, :end_date, :discount, :block_label, :room_id

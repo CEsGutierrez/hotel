@@ -49,22 +49,26 @@ require_relative 'test_helper'
 
 describe 'block characteristics' do
  
-before do
-# make a new hotel
-# make a new instance of block
-end
-
+ before do
+  @new_hotel = Booker.new
+  
+  @test_start_date = Date.parse("2019-09-03")
+  @test_end_date = Date.parse("2019-09-07")
+  @test_rooms_requested = 4
+  
+  @test_block = @new_hotel.new_block(start_date: @test_start_date, end_date: @test_end_date, number_of_rooms: @test_rooms_requested)
+ end
+ 
  it "instance of block knows it's an instance of Block" do
+  expect(@test_block).must_be_kind_of Block
  end
  
  it "instance of block knows its start date and end date" do
- end
- 
- it "instance of block knows its discount rate" do
+  expect(@test_block.start_date).must_equal @test_start_date
+  expect(@test_block.end_date).must_equal @test_end_date
  end
  
  it "instance of block knows how many rooms it's requiring" do
+  expect(@test_block.number_of_rooms).must_equal @test_rooms_requested
  end
- 
- 
 end
