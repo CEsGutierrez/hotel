@@ -86,6 +86,23 @@ class Booker
   
  end
  
+ def new_reservation_from_block(block_label)
+  
+  reservations.each_with_index do |reservation, index|
+   if reservation.block_label == block_label
+    reservation.reservation_id = reservations[index] 
+    break
+   end
+  end
+  
+  reserved_blocks.each do |block|
+   if block_label == block.block_label
+    block.number_of_rooms -= 1
+   end
+  end
+  
+ end
+ 
  def block_labeler
   block_labels = []
   @reserved_blocks.each do |block|

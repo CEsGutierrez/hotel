@@ -143,19 +143,6 @@ describe "Booking multiple reservations" do
  
 end
 
-# describe "registering a block" do
-
-#  before do
-#   @test_start_date = Date.parse("2019-09-03")
-#   @test_end_date = Date.parse("2019-09-07")
-#   @test_rooms_requested = 4
-
-#   @new_hotel = Booker.new
-
-#   @test_block = @new_hotel.new_block(start_date: @test_start_date, end_date: @test_end_date , number_of_rooms: @test_rooms_requested)
-#  end
-# end
-
 describe "booker conflicts with blocks" do
  before do
   @new_hotel = Booker.new
@@ -272,10 +259,33 @@ describe "booker creating new blocks and interactions with reservations" do
   expect(@new_hotel.reserved_blocks[1].block_label).must_equal 2
  end
  
- it "booker can keep track of how many block_holders are associated with a block" do
- end
- 
  it "booker can convert block_holders into reservations" do
+  @test_block = @new_hotel.new_block
+  
+  expected_block_label = 1
+  
+  reservations_based_on_test_block = []
+  @new_hotel.reservations.each do |reservation|
+   if reservation.block_label == expected_block_label && reservation.reservation_id != nil
+    reservations_baseD_on_test_block << []
+    puts reservation.reservation_id
+   end
+  end
+  
+  expect(reservations_based_on_test_block.length).must_equal 0
+  
+  #actually flipps the reservation
+  new_reservation_from_block = @new_hotel.new_reservation_from_block(expected_block_label)
+  
+  post_reservations_based_on_test_block = []
+  @new_hotel.reservations.each do |reservation|
+   if reservation.block_label == expected_block_label && reservation.reservation_id != nil
+    post_reservations_based_on_test_block << []
+   end
+  end
+  
+  expect(post_reservations_based_on_test_block.length).must_equal 1
+  
  end
  
  it "when reservations are made from blocks, they retain the block's originally assigned rooms, start date, end date" do

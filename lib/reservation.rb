@@ -3,7 +3,9 @@ require_relative 'room'
 
 class Reservation 
  
- attr_reader :start_date, :end_date, :room_id, :reservation_cost, :reservation_id, :block_label
+ attr_accessor :reservation_id
+ 
+ attr_reader :start_date, :end_date, :room_id, :reservation_cost, :block_label
  
  BLOCK_DISCOUNT = nil
  

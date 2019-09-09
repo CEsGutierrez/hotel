@@ -2,7 +2,9 @@
 
 class Block 
  
- attr_reader :start_date, :end_date, :discount, :block_label, :number_of_rooms
+ attr_accessor :number_of_rooms
+ 
+ attr_reader :start_date, :end_date, :discount, :block_label
  
  def initialize(start_date:, end_date:, discount: , block_label: , number_of_rooms:)
   
