@@ -7,7 +7,7 @@ require_relative 'block'
 
 class Booker
  
- # attr_reader :HOTEL_CAPACITY, :BLOCK_DISCOUNT
+ attr_reader :HOTEL_CAPACITY, :BLOCK_DISCOUNT
  
  attr_accessor :rooms, :reservations, :reserved_blocks
  
@@ -57,38 +57,47 @@ class Booker
   
   date_validator(digested_start_date, digested_end_date)
   
-  available_rooms = lists_available_rooms_for_range(range_start: start_date, range_end: end_date)
+  number_of_rooms = number_of_rooms
   
-  @number_of_rooms = number_of_rooms
+  if number_of_rooms < 2 || number_of_rooms > 5
+   raise ArgumentError.new "invalid number of rooms requested for block"
+  end
   
-  if available_rooms.length < @number_of_rooms
+  if lists_available_rooms_for_range(range_start: digested_start_date, range_end: digested_end_date).length < number_of_rooms
    raise ArgumentError.new "block exceeds hotel capacity"
   end
   
-  #  block_label =  block_labeler
+  block_label =  block_labeler
   
   discount = BLOCK_DISCOUNT
   
-  #  number_of_rooms.times do
-  
-  #   selected_room = room_picker(range_start: digested_start_date, range_end: digested_end_date)
-  
-  #   unless (1..HOTEL_CAPACITY).include? selected_room
-  #    raise ArgumentError.new "no room assigned for this reservation"
-  #   end
-  
+  number_of_rooms.times do
+   
+   selected_room = room_picker(range_start: digested_start_date, range_end: digested_end_date)
+   
+   unless (1..HOTEL_CAPACITY).include? selected_room
+    raise ArgumentError.new "no room assigned for this reservation"
+   end
+   
+   reservations << Reservation.new(start_date: digested_start_date, end_date: digested_end_date, room_id: selected_room, reservation_id: nil, block_label: block_label)
+   
+  end
   reserved_blocks << Block.new(start_date: start_date, end_date: end_date, discount: discount, block_label: block_label, number_of_rooms: number_of_rooms)
   
  end
- 
  
  def block_labeler
   block_labels = []
   @reserved_blocks.each do |block|
    block_labels << block.block_label
   end
-  return_statement = block_labels.max + 1
-  return return_statement
+  if !(block_labels.empty?)
+   block_labels.uniq!
+   return_statement = block_labels.max + 1
+   return return_statement
+  else
+   return 1
+  end
  end
  
  def date_digester(date)
@@ -123,7 +132,7 @@ class Booker
   @reservations.each do |reservation|
    start_date = reservation.start_date 
    end_date = reservation.end_date
-   if DateMediator.new(range_start: digested_range_start, range_end: digested_range_end, start_date: start_date, end_date: end_date).main_function > 0
+   if DateMediator.new(range_start: digested_range_start, range_end: digested_range_end, start_date: start_date, end_date: end_date).main_function > 0 && reservation.reservation_id != nil
     reservations_in_range << reservation
    end
   end
@@ -131,7 +140,7 @@ class Booker
  end
  
  def lists_available_rooms_for_range(range_start:, range_end: )
-  available_rooms_in_range = []
+  available_rooms_in_range = list_room_ids
   booked_rooms = []
   digested_range_start = date_digester(range_start)
   digested_range_end = date_digester(range_end)
@@ -142,7 +151,6 @@ class Booker
     booked_rooms << reservation.room_id
    end
   end
-  available_rooms_in_range = list_room_ids
   booked_rooms.each do |room_number|
    available_rooms_in_range.delete(room_number)
   end

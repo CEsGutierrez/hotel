@@ -19,8 +19,7 @@ class Block
   
   @number_of_rooms = number_of_rooms
   
-  #   @room_id = room_id
-  
  end
+ 
  
 end

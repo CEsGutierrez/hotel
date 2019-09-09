@@ -27,7 +27,7 @@ class Reservation
   @reservation_cost = room_cost * reservation_duration
   
   if block_label != nil
-   @reservation_cost = @reservation_cost * (100-Block.discount/100)
+   @reservation_cost = @reservation_cost * (100-Booker.block_discount/100)
    
   end
   
