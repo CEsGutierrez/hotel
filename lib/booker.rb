@@ -2,13 +2,14 @@ require 'date'
 require_relative 'room'
 require_relative 'reservation'
 require_relative 'date_mediator'
+require_relative 'block'
 
 
 class Booker
  
  # attr_reader :HOTEL_CAPACITY, :BLOCK_DISCOUNT
  
- attr_accessor :rooms, :reservations
+ attr_accessor :rooms, :reservations, :reserved_blocks
  
  HOTEL_CAPACITY = 20
  
@@ -49,35 +50,37 @@ class Booker
   
  end
  
- # def new_block(start_date: Date.today, end_date: Date.today + 1 , number_of_rooms: 2)
+ def new_block(start_date: Date.today, end_date: Date.today + 1 , number_of_rooms: 2, block_label: 1)
+  
+  digested_start_date = date_digester(start_date)
+  digested_end_date = date_digester(end_date)
+  
+  date_validator(digested_start_date, digested_end_date)
+  
+  available_rooms = lists_available_rooms_for_range(range_start: start_date, range_end: end_date)
+  
+  @number_of_rooms = number_of_rooms
+  
+  if available_rooms.length < @number_of_rooms
+   raise ArgumentError.new "block exceeds hotel capacity"
+  end
+  
+  #  block_label =  block_labeler
+  
+  discount = BLOCK_DISCOUNT
+  
+  #  number_of_rooms.times do
+  
+  #   selected_room = room_picker(range_start: digested_start_date, range_end: digested_end_date)
+  
+  #   unless (1..HOTEL_CAPACITY).include? selected_room
+  #    raise ArgumentError.new "no room assigned for this reservation"
+  #   end
+  
+  reserved_blocks << Block.new(start_date: start_date, end_date: end_date, discount: discount, block_label: block_label, number_of_rooms: number_of_rooms)
+  
+ end
  
- #  digested_start_date = date_digester(start_date)
- #  digested_end_date = date_digester(end_date)
- 
- #  date_validator(digested_start_date, digested_end_date)
- 
- #  available_rooms = lists_available_rooms_for_range(range_start: start_date, range_end: end_date)
- 
- #  if available_rooms < number_of_rooms
- #   raise ArgumentError.new "block exceeds hotel capacity"
- #  end
- 
- #  block_label =  block_labeler
- 
- #  discount = BLOCK_DISCOUNT
- 
- #  number_of_rooms.times do
- 
- #   selected_room = room_picker(range_start: digested_start_date, range_end: digested_end_date)
- 
- #   unless (1..HOTEL_CAPACITY).include? selected_room
- #    raise ArgumentError.new "no room assigned for this reservation"
- #   end
- 
- #   reserved_blocks << Block.new(start_date: start_date, end_date: end_date, discount: discount_percentage, block_label: block_label, room_id: selected_room)
- #  end
- 
- # end
  
  def block_labeler
   block_labels = []
