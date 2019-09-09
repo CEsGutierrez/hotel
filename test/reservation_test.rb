@@ -43,7 +43,7 @@ describe "reservation behaviors" do
  it "instance of reservation has nil for block label because Wave 1 proble ms" do
   expect(@test_reservation.block_label).must_be_nil
  end
- 
+
  it "raises an ArgumentError if the dates passed into it are not instances of Date" do
   
   reservation_id = @new_hotel.reservations.length + 1

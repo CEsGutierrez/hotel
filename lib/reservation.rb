@@ -12,11 +12,7 @@ class Reservation
   @start_date = start_date
   @end_date = end_date
   
-  if start_date.class != Date
-   raise ArgumentError.new "dates must be instances of Date"
-  end
-  
-  if end_date.class != Date
+  if start_date.class != Date || end_date.class != Date
    raise ArgumentError.new "dates must be instances of Date"
   end
   
@@ -34,9 +30,6 @@ class Reservation
    @reservation_cost = @reservation_cost * (100-Block.discount/100)
    
   end
-  
-  
-  
   
  end
  
