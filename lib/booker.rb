@@ -7,13 +7,11 @@ require_relative 'block'
 
 class Booker
  
- attr_reader :HOTEL_CAPACITY, :BLOCK_DISCOUNT
+ attr_reader :HOTEL_CAPACITY
  
  attr_accessor :rooms, :reservations, :reserved_blocks
  
  HOTEL_CAPACITY = 20
- 
- BLOCK_DISCOUNT = 15
  
  def initialize 
   @rooms = populate_hotel
@@ -30,6 +28,7 @@ class Booker
   end
   return rooms_array
  end  
+ 
  
  def new_reservation(start_date: Date.today, end_date: Date.today + 1)
   
@@ -50,14 +49,12 @@ class Booker
   
  end
  
- def new_block(start_date: Date.today, end_date: Date.today + 1 , number_of_rooms: 2, block_label: 1)
+ def new_block(start_date: Date.today, end_date: Date.today + 1 , number_of_rooms: 2, block_label: 1, block_discount: 15)
   
   digested_start_date = date_digester(start_date)
   digested_end_date = date_digester(end_date)
   
   date_validator(digested_start_date, digested_end_date)
-  
-  number_of_rooms = number_of_rooms
   
   if number_of_rooms < 2 || number_of_rooms > 5
    raise ArgumentError.new "invalid number of rooms requested for block"
@@ -67,9 +64,7 @@ class Booker
    raise ArgumentError.new "block exceeds hotel capacity"
   end
   
-  block_label =  block_labeler
-  
-  discount = BLOCK_DISCOUNT
+  block_label = block_labeler
   
   number_of_rooms.times do
    
@@ -79,10 +74,10 @@ class Booker
     raise ArgumentError.new "no room assigned for this reservation"
    end
    
-   reservations << Reservation.new(start_date: digested_start_date, end_date: digested_end_date, room_id: selected_room, reservation_id: nil, block_label: block_label)
+   reservations << Reservation.new(start_date: digested_start_date, end_date: digested_end_date, room_id: selected_room, reservation_id: nil, block_label: block_label, block_discount: block_discount)
    
   end
-  reserved_blocks << Block.new(start_date: start_date, end_date: end_date, discount: discount, block_label: block_label, number_of_rooms: number_of_rooms)
+  reserved_blocks << Block.new(start_date: start_date, end_date: end_date, discount: block_discount, block_label: block_label, number_of_rooms: number_of_rooms)
   
  end
  
@@ -188,10 +183,6 @@ class Booker
  
  def self.hotel_capacity
   return HOTEL_CAPACITY
- end
- 
- def self.block_discount
-  return BLOCK_DISCOUNT
  end
  
 end

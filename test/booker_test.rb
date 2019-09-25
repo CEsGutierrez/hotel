@@ -206,7 +206,7 @@ describe "booker conflicts with blocks" do
   
   @test_block = @new_hotel.new_block(start_date: @test_start_date, end_date: @test_end_date, number_of_rooms: @test_rooms_requested)
   
-  expected_discount = Booker.block_discount
+  expected_discount = 15
   
   expect(@new_hotel.reserved_blocks[0].discount).must_equal expected_discount
  end

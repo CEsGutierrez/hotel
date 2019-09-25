@@ -10,10 +10,9 @@ class Room
   if @id == nil
    raise ArgumentError.new("No ID number provided")
   end
-  
-  @cost = Room.cost
-  
+  @cost = Room.cost 
  end
+
  def self.cost 
   return BASE_ROOM_COST
  end

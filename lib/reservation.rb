@@ -7,9 +7,7 @@ class Reservation
  
  attr_reader :start_date, :end_date, :room_id, :reservation_cost, :block_label
  
- BLOCK_DISCOUNT = nil
- 
- def initialize(start_date:, end_date:, room_id:, reservation_id: nil, block_label: nil)
+ def initialize(start_date:, end_date:, room_id:, reservation_id: nil, block_label: nil, block_discount: nil)
   
   @start_date = start_date
   @end_date = end_date
@@ -29,7 +27,7 @@ class Reservation
   @reservation_cost = room_cost * reservation_duration
   
   if block_label != nil
-   @reservation_cost = @reservation_cost * (100-Booker.block_discount/100)
+   @reservation_cost = @reservation_cost * (100-block_discount/100)
    
   end
   
