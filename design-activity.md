@@ -64,15 +64,6 @@ Bonus question once you've read Metz ch. 3: Which implementation is more loosely
 Revisiting Hotel
 * The refactor.txt part of the assignment was missed at the time of the original submission. Therefore, as I reassess the classes in Hotel, I am amassing the following refactoring ideas. 
 
-Refactoring Ideas: 
-  * Room Class: remove cost from attr_reader and rework the code to only access the class method of self.cost instead to remove redundancy. 
-  * Reservation Class: examine what information needs to accessible from other classes and revisit attr_reader. 
-  * Reservation Class: consider moving some of the functionality out of the initialize method. 
-  * DateMediator Class: Guess what? look at attr_reader and what actually needs to be accessed from outside of it! I seriously think none of its attributes need to be readable from outside. 
-  * Consider moving reservations and reserved blocks into Reservation Class out of Booker Class. The accompanying methods might have too much reach into instances of Reservation. 
-  * Consider moving room_ids into Room Class out of Booker Class. Like when the instance of Room is created, move it over. 
-  * Detangle 
-
 Booker: 
 * What is this class's responsibility?
   * (Booker does too much) It populates the hotel by creating instances of rooms, it instigates reservations, it instigates soft reservations aka blocks, it lists the rooms available for a given date range, it selects the room for a reservation, it transforms soft reservations (blocks) into actual reservations, it validates incoming data. 
@@ -123,3 +114,21 @@ DateMediator:
 * Is there code in other classes that directly manipulates this class's instance variables?
   * No, classes just call the methods within it, but almost all of its variables are accessible. 
 
+Refactoring Ideas: 
+  * Room Class: remove cost from attr_reader and rework the code to only access the class method of self.cost instead to remove redundancy. 
+  * Reservation Class: examine what information needs to accessible from other classes and revisit attr_reader. 
+  * Reservation Class: consider moving some of the functionality out of the initialize method. 
+  * DateMediator Class: Guess what? look at attr_reader and what actually needs to be accessed from outside of it! I seriously think none of its attributes need to be readable from outside. 
+  * Consider moving reservations and reserved blocks into Reservation Class out of Booker Class. The accompanying methods might have too much reach into instances of Reservation. 
+  * Consider moving room_ids into Room Class out of Booker Class. Like when the instance of Room is created, move it over. 
+  * Detangle Booker from other things. 
+
+  Actual Refactoring Plan: 
+    * Make the block_discount not a constant so that people reserving blocks can do it (this is to match the expectations in the project requirements)
+    * Revisit Booker and delegate more into Reservation, Block and Room classes with specific regard to the following: 
+        * Reservations array being moved into Reservations and adding a reservation into the collection as part of its initialize method 
+        * Reserved blocks array being moved into Blocks and adding a block into the collection as part of its initialize method
+        * Rooms array being moved into Rooms and adding a room upon population
+            * This will have a component to limit the creation of new rooms to the HOTEL_CAPACITY constant but it can be reworked where this limit comes into being
+        * Consider moving lists_reservations_for_range method and lists_available_rooms_for_range into Reservations and Rooms respectively since they'll have the reference of instances of themselves
+        * Consider moving room_picker method into room also 
