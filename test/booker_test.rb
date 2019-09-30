@@ -43,16 +43,12 @@ describe "Booker basic functions" do
  it "verifies that the desired start date for a reservation is before the end date" do
   expect{@booker.new_reservation(start_date: Date.today+1, end_date: Date.today)}.must_raise ArgumentError
  end
-end
-
-describe "Booker's reporting abilities" do
- before do
-  @new_hotel = Booker.new
-  @test_reservation = @new_hotel.new_reservation
- end 
- it "can list all the rooms in the hotel by their ID number" do
-  expect(@new_hotel.list_room_ids.length).must_equal 20
-  expect(@new_hotel.list_room_ids.uniq).must_equal @new_hotel.list_room_ids
+ 
+ describe "Booker's reporting abilities" do
+  before do
+   @new_hotel = Booker.new
+   @test_reservation = @new_hotel.new_reservation
+  end 
  end
  
  it "room_picker returns the first available room for a given period of time" do

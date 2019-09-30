@@ -1,0 +1,6 @@
+In that file, make a short list of the changes that you could make, such as naming conventions, etc.
+These notes will be used by you in a few weeks, so make sure that they are detailed enough that someone else could understand your thinking and follow your directions
+
+//
+
+This requirement was missed at the time of the assignment. 

@@ -3,6 +3,7 @@ require_relative 'room'
 require_relative 'reservation'
 require_relative 'date_mediator'
 require_relative 'block'
+require_relative 'reporter'
 
 
 class Booker
@@ -118,7 +119,6 @@ class Booker
   else
    digested_date = date
   end
-  
   return digested_date
  end
  
@@ -129,50 +129,10 @@ class Booker
   end
  end
  
- def list_room_ids
-  room_id_list = []
-  @rooms.each do |room|
-   room_id_list << room.id
-  end
-  return room_id_list
- end
- 
- def lists_reservations_for_range(range_start: Date.today, range_end: Date.today)
-  reservations_in_range = []
-  digested_range_start = date_digester(range_start)
-  digested_range_end = date_digester(range_end)
-  @reservations.each do |reservation|
-   start_date = reservation.start_date 
-   end_date = reservation.end_date
-   if DateMediator.new(range_start: digested_range_start, range_end: digested_range_end, start_date: start_date, end_date: end_date).main_function > 0 && reservation.reservation_id != nil
-    reservations_in_range << reservation
-   end
-  end
-  return reservations_in_range
- end
- 
- def lists_available_rooms_for_range(range_start:, range_end: )
-  available_rooms_in_range = list_room_ids
-  booked_rooms = []
-  digested_range_start = date_digester(range_start)
-  digested_range_end = date_digester(range_end)
-  @reservations.each do |reservation|
-   start_date = reservation.start_date 
-   end_date = reservation.end_date
-   if DateMediator.new(range_start: digested_range_start, range_end: digested_range_end, start_date: start_date, end_date: end_date).conflicting_dates > 0
-    booked_rooms << reservation.room_id
-   end
-  end
-  booked_rooms.each do |room_number|
-   available_rooms_in_range.delete(room_number)
-  end
-  return available_rooms_in_range  
- end
- 
  def room_picker(range_start: , range_end: )
   range_start = range_start
   range_end = range_end
-  available_rooms = lists_available_rooms_for_range(range_start: range_start, range_end: range_end)
+  available_rooms = Reporter.lists_available_rooms_for_range(range_start: range_start, range_end: range_end)
   if available_rooms.length > 0
    return available_rooms[0]
   else
