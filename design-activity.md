@@ -73,6 +73,15 @@ Refactoring Ideas:
   * Consider moving room_ids into Room Class out of Booker Class. Like when the instance of Room is created, move it over. 
   * Detangle 
 
+Refactoring Ideas: 
+  * Room Class: remove cost from attr_reader and rework the code to only access the class method of self.cost instead to remove redundancy. 
+  * Reservation Class: examine what information needs to accessible from other classes and revisit attr_reader. 
+  * Reservation Class: consider moving some of the functionality out of the initialize method. 
+  * DateMediator Class: Guess what? look at attr_reader and what actually needs to be accessed from outside of it! I seriously think none of its attributes need to be readable from outside. 
+  * Consider moving reservations and reserved blocks into Reservation Class out of Booker Class. The accompanying methods might have too much reach into instances of Reservation. 
+  * Consider moving room_ids into Room Class out of Booker Class. Like when the instance of Room is created, move it over. 
+  * Detangle 
+
 Booker: 
 * What is this class's responsibility?
   * (Booker does too much) It populates the hotel by creating instances of rooms, it instigates reservations, it instigates soft reservations aka blocks, it lists the rooms available for a given date range, it selects the room for a reservation, it transforms soft reservations (blocks) into actual reservations, it validates incoming data. 
