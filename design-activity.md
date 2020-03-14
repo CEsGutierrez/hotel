@@ -64,6 +64,24 @@ Bonus question once you've read Metz ch. 3: Which implementation is more loosely
 Revisiting Hotel
 
 * Adjusted code so that block_discount is no longer a constant but needs to be entered in at the time that a block reservation is being made. Default is 15% but is changeable. 
+Refactoring Ideas: 
+  * Room Class: remove cost from attr_reader and rework the code to only access the class method of self.cost instead to remove redundancy. 
+  * Reservation Class: examine what information needs to accessible from other classes and revisit attr_reader. 
+  * Reservation Class: consider moving some of the functionality out of the initialize method. 
+  * DateMediator Class: Guess what? look at attr_reader and what actually needs to be accessed from outside of it! I seriously think none of its attributes need to be readable from outside. 
+  * Consider moving reservations and reserved blocks into Reservation Class out of Booker Class. The accompanying methods might have too much reach into instances of Reservation. 
+  * Consider moving room_ids into Room Class out of Booker Class. Like when the instance of Room is created, move it over. 
+  * Detangle 
+
+Booker: 
+* What is this class's responsibility?
+  * (Booker does too much) It populates the hotel by creating instances of rooms, it instigates reservations, it instigates soft reservations aka blocks, it lists the rooms available for a given date range, it selects the room for a reservation, it transforms soft reservations (blocks) into actual reservations, it validates incoming data. 
+* Is this class responsible for exactly one thing?
+  * Lol, no, it's responsible for loads of things. 
+* Does this class take on any responsibility that should be delegated to "lower level" classes?
+  * Yes. Tons! 
+* Is there code in other classes that directly manipulates this class's instance variables?
+  * No, no one reaches into Booker, but it's too closely dependent on Reservations and Blocks specifically so I worry about detangling them. 
 
 * When do classes take on multiple roles? 
   I think Booker takes on too many roles. I think it might be good to split its reporting methods from it's activity methods.
@@ -75,3 +93,33 @@ Revisiting Hotel
   * Adjust the tests to reflect the creation of this class
   * My concern is that this class and Booker might be too dependent on each other because Booker needs to access the stored reservations and blocks for several things. 
     
+Reservation: 
+* What is this class's responsibility?
+  * Reservation holds instance-specific information for each reservation which includes the calculation of the cost of the reservation.
+* Is this class responsible for exactly one thing?
+  * No. It adapts for a possible block discount when calculating the cost. 
+* Does this class take on any responsibility that should be delegated to "lower level" classes?
+  * There are no lower level classes, but I feel that its functions could be broken down into smaller, single-responsibility methods. 
+* Is there code in other classes that directly manipulates this class's instance variables?
+  * I fear that this might be the case, because all of the instance variables are accessible. 
+
+Block: 
+* What is this class's responsibility?
+  * Block creates instances of itself.
+* Is this class responsible for exactly one thing?
+  * Yes
+* Does this class take on any responsibility that should be delegated to "lower level" classes?
+  * No.
+* Is there code in other classes that directly manipulates this class's instance variables?
+  * Looking at its accessible variables, I think so. 
+
+DateMediator: 
+* What is this class's responsibility?
+  * DateMediator checks to see the level of conflict between two date ranges.  
+* Is this class responsible for exactly one thing?
+  * Yes. Although it can check for both hard conflicts and overlapping dates that are permissible between the check-out time and the check-in time.  
+* Does this class take on any responsibility that should be delegated to "lower level" classes?
+  * No, it might be the only true single-responsibility class in the entire program. 
+* Is there code in other classes that directly manipulates this class's instance variables?
+  * No, classes just call the methods within it, but almost all of its variables are accessible. 
+
